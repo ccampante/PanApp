@@ -18,6 +18,8 @@
 		D52D477D1FBCB4A8008F399A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D52D477B1FBCB4A8008F399A /* LaunchScreen.storyboard */; };
 		D52D47881FBCB4A8008F399A /* PanAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52D47871FBCB4A8008F399A /* PanAppTests.swift */; };
 		D55C05EA1FBCCCF6004F7263 /* Twitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55C05E91FBCCCF6004F7263 /* Twitch.swift */; };
+		D561BF7B1FBE9056007A0133 /* JogoTwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D561BF7A1FBE9056007A0133 /* JogoTwitch.swift */; };
+		D561BF7D1FBE925B007A0133 /* Rede.swift in Sources */ = {isa = PBXBuildFile; fileRef = D561BF7C1FBE925B007A0133 /* Rede.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +52,8 @@
 		D52D47871FBCB4A8008F399A /* PanAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanAppTests.swift; sourceTree = "<group>"; };
 		D52D47891FBCB4A8008F399A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D55C05E91FBCCCF6004F7263 /* Twitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Twitch.swift; sourceTree = "<group>"; };
+		D561BF7A1FBE9056007A0133 /* JogoTwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JogoTwitch.swift; sourceTree = "<group>"; };
+		D561BF7C1FBE925B007A0133 /* Rede.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rede.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +128,8 @@
 				D55C05E91FBCCCF6004F7263 /* Twitch.swift */,
 				D5135ED01FBD15100054A28F /* ListaViewController.swift */,
 				D5135ED21FBD15DF0054A28F /* JogoCollectionViewCell.swift */,
+				D561BF7A1FBE9056007A0133 /* JogoTwitch.swift */,
+				D561BF7C1FBE925B007A0133 /* Rede.swift */,
 			);
 			path = PanApp;
 			sourceTree = "<group>";
@@ -265,10 +271,12 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-PanApp/Pods-PanApp-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -351,6 +359,8 @@
 				D5135ED11FBD15110054A28F /* ListaViewController.swift in Sources */,
 				D5135ED31FBD15DF0054A28F /* JogoCollectionViewCell.swift in Sources */,
 				D52D47781FBCB4A8008F399A /* PanApp.xcdatamodeld in Sources */,
+				D561BF7B1FBE9056007A0133 /* JogoTwitch.swift in Sources */,
+				D561BF7D1FBE925B007A0133 /* Rede.swift in Sources */,
 				D55C05EA1FBCCCF6004F7263 /* Twitch.swift in Sources */,
 				D52D47701FBCB4A7008F399A /* AppDelegate.swift in Sources */,
 			);

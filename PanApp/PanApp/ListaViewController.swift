@@ -11,7 +11,12 @@ import UIKit
 class ListaViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
 
     @IBOutlet weak var listaJogos: UICollectionView!
-    var jogos = ["Teste1","Teste2","Teste3","Teste4","Teste5","Teste6","Teste7","Teste8","Teste9","Teste10","Teste11","Teste12"]
+    
+    //var dadosArray : NSMutableArray = []
+    
+    var refreshControl:UIRefreshControl!
+    
+    var dadosJogos:[JogoTwitch] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +25,12 @@ class ListaViewController: UIViewController, UICollectionViewDelegate, UICollect
         self.listaJogos.delegate = self
         self.listaJogos.dataSource = self
         
-        carregaDados()
+        populaListaJogos()
+        
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(atualizar), for: .valueChanged)
+        listaJogos.refreshControl = refreshControl
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -28,33 +38,62 @@ class ListaViewController: UIViewController, UICollectionViewDelegate, UICollect
         // Dispose of any resources that can be recreated.
     }
     
+    @objc func atualizar() {
+        DispatchQueue.global(qos: .background).async {
+            
+            // Carrega os dados da api
+            Twitch().carregaApi()
+            
+            // Go back to the main thread to update the UI
+            DispatchQueue.main.async {
+                //retorno
+                self.dadosJogos = Twitch().carregaJogos()
+                self.listaJogos.reloadData()
+                self.refreshControl.endRefreshing()
+            }
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return jogos.count
+        return dadosJogos.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "JogoCell", for: indexPath) as! JogoCollectionViewCell
         
-        cell.lblNomeJogo.text = jogos[indexPath.row]
+        cell.lblNomeJogo.text = dadosJogos[indexPath.row].nome
+        
         return cell
     }
     
-    func carregaDados() {
+    func populaListaJogos() {
         
+        if (Twitch().temRegistros()) {
+            
+            self.dadosJogos = Twitch().carregaJogos()
+            self.listaJogos.reloadData()
+            
+        } else {
+            
+            atualizaListaApi()
+        }
+    }
+    
+    func atualizaListaApi() {
         DispatchQueue.global(qos: .background).async {
             
             // Carrega os dados da api
-            
-            //let result = self.validate(thisEmail, password: thisPassword)
-            Twitch().carregaJogos()
+            Twitch().carregaApi()
             
             // Go back to the main thread to update the UI
             DispatchQueue.main.async {
-                //fim
+                //retorno
+                self.dadosJogos = Twitch().carregaJogos()
+                self.listaJogos.reloadData()
             }
         }
     }
-
+    
     /*
     // MARK: - Navigation
 

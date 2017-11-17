@@ -11,6 +11,7 @@ import UIKit
 class JogoCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var lblNomeJogo: UILabel!
+    @IBOutlet weak var imgPequena: UIImageView!
     
     
 }
