@@ -26,9 +26,20 @@ class Twitch {
         Rede().downloadApi()
     }
     
+    func obterDadosApi()-> [JogoTwitch] {
+        
+        return Rede().downloadDados()
+    }
+    
     func obterJogos()-> [JogoTwitch] {
         
         return Rede().obterJogos()
+    }
+    
+    func incluiJogo(jogo: JogoTwitch)-> Void {
+        
+        Rede().gravaJogo(jogoObj: jogo)
+        
     }
 
 }

@@ -17,6 +17,9 @@ class ListaViewController: UIViewController, UICollectionViewDelegate, UICollect
     var refreshControl:UIRefreshControl!
     
     var dadosJogos:[JogoTwitch] = []
+    var dadosFiltrados:[JogoTwitch] = []
+    
+    var itemPosicao = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,23 +32,31 @@ class ListaViewController: UIViewController, UICollectionViewDelegate, UICollect
         listaJogos.refreshControl = refreshControl
         
         //Rede().limpaJogos()
-
-        self.atualizaTela()
+        
+        if (Twitch().temRegistros()) {
+            self.atualizaTela()
+        } else {
+            let testeTimer = Timer.scheduledTimer(timeInterval: 20, target: self, selector: "atualizaTela", userInfo: nil, repeats: false)
+        }
     }
     
     @objc func atualizar() {
         self.refreshControl.endRefreshing()
+        itemPosicao = 20
         self.atualizaTela()
     }
     
-    func atualizaTela() {
+    @objc func atualizaTela() {
         self.dadosJogos = Twitch().obterJogos()
+        if (self.dadosJogos.count > 0) {
+            itemPosicao = 20
+        }
         self.listaJogos.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.listaJogos.reloadData()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -59,7 +70,7 @@ class ListaViewController: UIViewController, UICollectionViewDelegate, UICollect
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dadosJogos.count
+        return itemPosicao //dadosJogos.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -97,5 +108,15 @@ class ListaViewController: UIViewController, UICollectionViewDelegate, UICollect
         tela!.capaUrl = dadosJogos[indexPath.row].imagemPequena
         self.present(tela!, animated: true, completion: nil) //.navigationController?.pushViewController(tela!, animated: true)
     }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView){
+        if (itemPosicao+20 < dadosJogos.count) {
+            itemPosicao += 20
+        } else {
+            itemPosicao = dadosJogos.count
+        }
+        listaJogos.reloadData()
+    }
+    
 
 }

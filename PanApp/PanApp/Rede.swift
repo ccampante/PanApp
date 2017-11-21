@@ -21,18 +21,77 @@ class Rede {
         static var clientID = "23mp4lduhqpildxud92jmok2g6u8lw"
     }
     
+    func downloadDados()-> [JogoTwitch] {
+        
+        limpaJogos()
+        var jogosRetorno:[JogoTwitch] = []
+        
+        let caminho = BaseURL.serverBase + "?limit=100&client_id=" + AutorizaRequest.clientID
+        
+        Alamofire.request(caminho).responseData { response in
+            debugPrint("All Response Info: \(response)")
+            
+            if let data = response.result.value, let utf8Text = String(data: data, encoding: .utf8) {
+                
+                do {
+                    let readableJSON = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: Any]
+                    
+                    let itemsJson = readableJSON["top"] as! NSArray
+                    let visualizacoesArray = itemsJson.value(forKey: "viewers") as! NSArray
+                    let canaisArray = itemsJson.value(forKey: "channels") as! NSArray
+                    let jogoArray = itemsJson.value(forKey: "game") as! NSArray
+                    
+                    var index = 0
+                    for jogo in jogoArray {
+                        
+                        let jogoDict = jogo as! NSDictionary
+                        
+                        let nomeJogo = jogoDict.value(forKey: "name")! as! String
+                        let boxDict = jogoDict.value(forKey: "box") as! NSDictionary
+                        let imgGrande = boxDict.value(forKey: "large")! as! String
+                        let imgMedia = boxDict.value(forKey: "medium")! as! String
+                        let imgPequena = boxDict.value(forKey: "small")! as! String
+                        let qtdVisualizacoes = visualizacoesArray[index] as! Int32
+                        let qtdCanais = canaisArray[index] as! Int32
+                        
+                        //salvar novo jogo
+                        let item = JogoTwitch()
+                        item.nome = nomeJogo
+                        item.imagemGrande = imgGrande
+                        item.imagemMedia = imgMedia
+                        item.imagemPequena = imgPequena
+                        item.qtdCanais = qtdCanais
+                        item.qtdVisualizacoes = qtdVisualizacoes
+                        
+                        jogosRetorno.append(item)
+                        
+                        index += 1
+                    }
+                    
+                }
+                catch {
+                    print(error)
+                }
+            }
+        }
+        
+        return jogosRetorno
+    }
+    
     func downloadApi()-> Void {
         
         limpaJogos()
         
-        let caminho = BaseURL.serverBase + "?client_id=" + AutorizaRequest.clientID
+        let caminho = BaseURL.serverBase + "?limit=100&client_id=" + AutorizaRequest.clientID
         
         Alamofire.request(caminho)
             .responseJSON(completionHandler: {
                 response in
                 self.parseData(JSONData: response.data!)
+                
+                
             })
-        }
+    }
     
     func parseData(JSONData: Data) {
         do {
