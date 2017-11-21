@@ -21,7 +21,7 @@ class Rede {
         static var clientID = "23mp4lduhqpildxud92jmok2g6u8lw"
     }
     
-    func carregaJogosApi()-> Void {
+    func downloadApi()-> Void {
         
         limpaJogos()
         
@@ -32,18 +32,15 @@ class Rede {
                 response in
                 self.parseData(JSONData: response.data!)
             })
-    }
+        }
     
     func parseData(JSONData: Data) {
         do {
             let readableJSON = try JSONSerialization.jsonObject(with: JSONData, options:.allowFragments) as! [String: Any]
             
-            let itemsJson = readableJSON["top"] as! NSArray//[[String: Any]]
+            let itemsJson = readableJSON["top"] as! NSArray
             
-            //visualizações
             let visualizacoesArray = itemsJson.value(forKey: "viewers") as! NSArray
-            
-            //canais
             let canaisArray = itemsJson.value(forKey: "channels") as! NSArray
             
             let jogoArray = itemsJson.value(forKey: "game") as! NSArray
@@ -81,11 +78,9 @@ class Rede {
         }
     }
     
-    func gravaJogo(jogoObj: JogoTwitch) {
-        //core data
-        let context = (UIApplication.shared.delegate as! AppDelegate!).persistentContainer.viewContext
+    func gravaJogo(jogoObj: JogoTwitch)-> Void {
         
-        //novo jogo
+        let context = (UIApplication.shared.delegate as! AppDelegate!).persistentContainer.viewContext
         let jogo = NSEntityDescription.insertNewObject(forEntityName: "Jogo", into: context)
         
         jogo.setValue(jogoObj.nome!.uppercased(), forKey: "nome")
@@ -95,13 +90,13 @@ class Rede {
         jogo.setValue(jogoObj.qtdCanais, forKey: "qtd_canais")
         jogo.setValue(jogoObj.qtdVisualizacoes, forKey: "qtd_visualizacoes")
         
-        //salvar
         do {
             try context.save()
             //salvo
             print("salvo novo jogo")
         } catch {
             //erro
+            print("erro salvando novo jogo")
         }
     }
     
@@ -117,7 +112,6 @@ class Rede {
             let jogosObj = results as! [Jogo]
             
             for j in jogosObj {
-                //print(jogoObj.nome!.uppercased())
                 
                 let item = JogoTwitch()
                 item.nome = j.nome!.uppercased()

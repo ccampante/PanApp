@@ -17,6 +17,8 @@
 		D52D477A1FBCB4A8008F399A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D52D47791FBCB4A8008F399A /* Assets.xcassets */; };
 		D52D477D1FBCB4A8008F399A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D52D477B1FBCB4A8008F399A /* LaunchScreen.storyboard */; };
 		D52D47881FBCB4A8008F399A /* PanAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52D47871FBCB4A8008F399A /* PanAppTests.swift */; };
+		D545FD121FC39A87009D95AF /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = D545FD111FC39A85009D95AF /* Reachability.swift */; };
+		D54601771FC3367300A12527 /* JogoDetalheViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54601761FC3367300A12527 /* JogoDetalheViewController.swift */; };
 		D55C05EA1FBCCCF6004F7263 /* Twitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55C05E91FBCCCF6004F7263 /* Twitch.swift */; };
 		D561BF7B1FBE9056007A0133 /* JogoTwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D561BF7A1FBE9056007A0133 /* JogoTwitch.swift */; };
 		D561BF7D1FBE925B007A0133 /* Rede.swift in Sources */ = {isa = PBXBuildFile; fileRef = D561BF7C1FBE925B007A0133 /* Rede.swift */; };
@@ -51,6 +53,8 @@
 		D52D47831FBCB4A8008F399A /* PanAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PanAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D52D47871FBCB4A8008F399A /* PanAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanAppTests.swift; sourceTree = "<group>"; };
 		D52D47891FBCB4A8008F399A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D545FD111FC39A85009D95AF /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		D54601761FC3367300A12527 /* JogoDetalheViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JogoDetalheViewController.swift; sourceTree = "<group>"; };
 		D55C05E91FBCCCF6004F7263 /* Twitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Twitch.swift; sourceTree = "<group>"; };
 		D561BF7A1FBE9056007A0133 /* JogoTwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JogoTwitch.swift; sourceTree = "<group>"; };
 		D561BF7C1FBE925B007A0133 /* Rede.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rede.swift; sourceTree = "<group>"; };
@@ -130,6 +134,8 @@
 				D5135ED21FBD15DF0054A28F /* JogoCollectionViewCell.swift */,
 				D561BF7A1FBE9056007A0133 /* JogoTwitch.swift */,
 				D561BF7C1FBE925B007A0133 /* Rede.swift */,
+				D54601761FC3367300A12527 /* JogoDetalheViewController.swift */,
+				D545FD111FC39A85009D95AF /* Reachability.swift */,
 			);
 			path = PanApp;
 			sourceTree = "<group>";
@@ -361,7 +367,9 @@
 				D52D47781FBCB4A8008F399A /* PanApp.xcdatamodeld in Sources */,
 				D561BF7B1FBE9056007A0133 /* JogoTwitch.swift in Sources */,
 				D561BF7D1FBE925B007A0133 /* Rede.swift in Sources */,
+				D545FD121FC39A87009D95AF /* Reachability.swift in Sources */,
 				D55C05EA1FBCCCF6004F7263 /* Twitch.swift in Sources */,
+				D54601771FC3367300A12527 /* JogoDetalheViewController.swift in Sources */,
 				D52D47701FBCB4A7008F399A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -519,6 +527,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SG5937XPAE;
 				INFOPLIST_FILE = PanApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = CRCC.PanApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -535,6 +544,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SG5937XPAE;
 				INFOPLIST_FILE = PanApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = CRCC.PanApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -7,12 +7,12 @@
 //
 
 import UIKit
+import Alamofire
+import AlamofireImage
 
 class ListaViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
 
     @IBOutlet weak var listaJogos: UICollectionView!
-    
-    //var dadosArray : NSMutableArray = []
     
     var refreshControl:UIRefreshControl!
     
@@ -21,15 +21,35 @@ class ListaViewController: UIViewController, UICollectionViewDelegate, UICollect
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         self.listaJogos.delegate = self
         self.listaJogos.dataSource = self
-        
-        populaListaJogos()
         
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(atualizar), for: .valueChanged)
         listaJogos.refreshControl = refreshControl
+        
+        //Rede().limpaJogos()
+
+        self.atualizaTela()
+    }
+    
+    @objc func atualizar() {
+        self.refreshControl.endRefreshing()
+        self.atualizaTela()
+    }
+    
+    func atualizaTela() {
+        self.dadosJogos = Twitch().obterJogos()
+        self.listaJogos.reloadData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.listaJogos.reloadData()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
     }
 
@@ -37,23 +57,7 @@ class ListaViewController: UIViewController, UICollectionViewDelegate, UICollect
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    @objc func atualizar() {
-        DispatchQueue.global(qos: .background).async {
-            
-            // Carrega os dados da api
-            Twitch().carregaApi()
-            
-            // Go back to the main thread to update the UI
-            DispatchQueue.main.async {
-                //retorno
-                self.dadosJogos = Twitch().carregaJogos()
-                self.listaJogos.reloadData()
-                self.refreshControl.endRefreshing()
-            }
-        }
-    }
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dadosJogos.count
     }
@@ -63,45 +67,35 @@ class ListaViewController: UIViewController, UICollectionViewDelegate, UICollect
         
         cell.lblNomeJogo.text = dadosJogos[indexPath.row].nome
         
+        if (dadosJogos[indexPath.row].imagemPequena != nil) {
+            
+            let urlPequena = dadosJogos[indexPath.row].imagemPequena!
+            
+            //let destination = DownloadRequest.suggestedDownloadDestination(for: .documentDirectory)
+            //Alamofire.download(urlPequena, to: destination)
+            
+            Alamofire.request(urlPequena).responseImage { response in
+                
+                if let image = response.result.value {
+                    cell.imgCapa.image = image
+                }
+            }
+            
+        } else {
+            cell.imgCapa.image = UIImage(named: "capa-teste")
+        }
+        
         return cell
     }
     
-    func populaListaJogos() {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if (Twitch().temRegistros()) {
-            
-            self.dadosJogos = Twitch().carregaJogos()
-            self.listaJogos.reloadData()
-            
-        } else {
-            
-            atualizaListaApi()
-        }
+        let tela =  self.storyboard?.instantiateViewController(withIdentifier: "JogoDetalhe") as? JogoDetalheViewController
+        tela!.nome = dadosJogos[indexPath.row].nome
+        tela!.visualizacoes = String(describing: dadosJogos[indexPath.row].qtdVisualizacoes!)
+        tela!.canais = String(describing: dadosJogos[indexPath.row].qtdCanais!)
+        tela!.capaUrl = dadosJogos[indexPath.row].imagemPequena
+        self.present(tela!, animated: true, completion: nil) //.navigationController?.pushViewController(tela!, animated: true)
     }
-    
-    func atualizaListaApi() {
-        DispatchQueue.global(qos: .background).async {
-            
-            // Carrega os dados da api
-            Twitch().carregaApi()
-            
-            // Go back to the main thread to update the UI
-            DispatchQueue.main.async {
-                //retorno
-                self.dadosJogos = Twitch().carregaJogos()
-                self.listaJogos.reloadData()
-            }
-        }
-    }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

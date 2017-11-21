@@ -21,18 +21,15 @@ class Twitch {
         }
     }
     
-    func carregaApi()-> Void {
+    func atualizaApi()-> Void {
         
-        Rede().carregaJogosApi()
-        
+        Rede().downloadApi()
     }
     
-    func carregaJogos()-> [JogoTwitch] {
+    func obterJogos()-> [JogoTwitch] {
         
         return Rede().obterJogos()
     }
-    
-    
 
 }
 
